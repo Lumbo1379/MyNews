@@ -1,33 +1,31 @@
 package com.example.mynews.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class NewsViewPagerAdapter extends RecyclerView.Adapter<NewsViewPagerAdapter.NewsViewHolder> {
+import com.example.mynews.fragments.NewsFragment;
+
+
+public class NewsViewPagerAdapter extends FragmentStateAdapter {
+
+    public NewsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
+    }
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-
+    public Fragment createFragment(int position) {
+        return new NewsFragment(String.valueOf(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-    }
-
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-
-        public NewsViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
+        return 3;
     }
 }
