@@ -10,18 +10,23 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.mynews.fragments.NewsFragment;
+import com.example.mynews.utils.LruImageViewCache;
 
 
 public class NewsViewPagerAdapter extends FragmentStateAdapter {
 
-    public NewsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    private LruImageViewCache mCache;
+
+    public NewsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, LruImageViewCache cache) {
         super(fragmentActivity);
+
+        mCache = cache;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return new NewsFragment(String.valueOf(position));
+        return new NewsFragment(position, mCache);
     }
 
     @Override
