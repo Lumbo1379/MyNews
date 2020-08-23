@@ -3,8 +3,13 @@ package com.example.mynews.utils;
 import com.example.mynews.models.NYTArticle;
 import com.example.mynews.models.NYTArticles;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
