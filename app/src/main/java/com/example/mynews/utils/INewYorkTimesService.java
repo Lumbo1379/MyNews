@@ -2,6 +2,7 @@ package com.example.mynews.utils;
 
 import com.example.mynews.models.NYTArticle;
 import com.example.mynews.models.NYTArticles;
+import com.example.mynews.models.NYTViewedArticles;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -19,11 +20,9 @@ import retrofit2.http.Query;
 
 public interface INewYorkTimesService {
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.nytimes.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
     @GET("svc/topstories/v2/{section}.json")
     Call<NYTArticles> getTopStories( @Path("section") String section, @Query("api-key") String apiKey);
+
+    @GET("svc/mostpopular/v2/viewed/{period}.json")
+    Call<NYTViewedArticles> getMostPopular(@Path("period") int period, @Query("api-key") String apiKey);
 }

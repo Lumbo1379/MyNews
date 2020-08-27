@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.example.mynews.R;
 import com.example.mynews.adapters.NewsRecyclerViewAdapter;
 import com.example.mynews.models.NYTArticles;
+import com.example.mynews.models.NYTViewedArticles;
+import com.example.mynews.utils.INYTArticles;
 import com.example.mynews.utils.LruImageViewCache;
 import com.example.mynews.utils.NYTCalls;
 import com.example.mynews.utils.NYTPageConstants;
@@ -22,11 +24,9 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
     private int mSearch;
     private RecyclerView mRecyclerView;
-    private LruImageViewCache mCache;
 
-    public NewsFragment(int search, LruImageViewCache cache) {
+    public NewsFragment(int search) {
         mSearch = search;
-        mCache = cache;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
     }
 
     private void getMostPopular() {
-
+        NYTCalls.fetchMostPopular(this, 1, NYTPageConstants.API_KEY);
     }
 
     private void getBusiness() {
@@ -69,7 +69,7 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
     }
 
     @Override
-    public void onResponse(@Nullable NYTArticles articles) {
+    public void onResponse(@Nullable INYTArticles articles) {
         updateRecyclerView(articles);
     }
 
@@ -78,8 +78,8 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
     }
 
-    private void updateRecyclerView(NYTArticles articles) {
-        mRecyclerView.setAdapter(new NewsRecyclerViewAdapter(getActivity(), articles, mCache));
+    private void updateRecyclerView(INYTArticles articles) {
+        mRecyclerView.setAdapter(new NewsRecyclerViewAdapter(getActivity(), articles));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 }

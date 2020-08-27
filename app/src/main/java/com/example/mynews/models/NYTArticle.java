@@ -1,11 +1,12 @@
 package com.example.mynews.models;
 
+import com.example.mynews.utils.INYTArticle;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NYTArticle {
+public class NYTArticle implements INYTArticle {
 
     @SerializedName("section")
     @Expose
@@ -233,5 +234,22 @@ public class NYTArticle {
 
     public void setShortUrl(String shortUrl) {
         this.shortUrl = shortUrl;
+    }
+
+    public String getSnapshotUrl() {
+        if (!multimedia.isEmpty()) {
+            return multimedia.get(0).getUrl();
+        } else {
+            return "";
+        }
+    }
+
+    public String getFullSection() {
+        String fullSection = section;
+
+        if (!subsection.equals(""))
+            fullSection += " > " + subsection;
+
+        return fullSection.toUpperCase();
     }
 }

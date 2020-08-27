@@ -10,6 +10,7 @@ import com.example.mynews.R;
 import com.example.mynews.adapters.NewsViewPagerAdapter;
 import com.example.mynews.fragments.NewsFragment;
 import com.example.mynews.utils.LruImageViewCache;
+import com.example.mynews.utils.NYTCalls;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -32,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager = findViewById(R.id.activity_main_pager_news);
 
-        LruImageViewCache cache = new LruImageViewCache();
+        NYTCalls.init(this);
 
-        mNewsViewPagerAdapter = new NewsViewPagerAdapter(this, cache);
+        mNewsViewPagerAdapter = new NewsViewPagerAdapter(this);
     }
 
     private void initialiseViewPager() {

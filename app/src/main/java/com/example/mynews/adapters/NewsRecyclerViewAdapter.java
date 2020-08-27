@@ -1,10 +1,13 @@
 package com.example.mynews.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,10 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynews.R;
+import com.example.mynews.controllers.ArticleWebActivity;
+import com.example.mynews.controllers.MainActivity;
 import com.example.mynews.models.NYTArticle;
 import com.example.mynews.models.NYTArticles;
+import com.example.mynews.models.NYTViewedArticles;
 import com.example.mynews.utils.DownloadImage;
+import com.example.mynews.utils.INYTArticle;
+import com.example.mynews.utils.INYTArticles;
 import com.example.mynews.utils.LruImageViewCache;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,12 +32,12 @@ import java.util.Date;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.NewsViewHolder> {
 
-    private NYTArticles mArticles;
-    private LruImageViewCache mCache;
+    private INYTArticles mArticles;
+    private Context mContext;
 
-    public NewsRecyclerViewAdapter(Context newsFragment, NYTArticles articles, LruImageViewCache cache) {
+    public NewsRecyclerViewAdapter(Context newsFragment, INYTArticles articles) {
         mArticles = articles;
-        mCache = cache;
+        mContext = newsFragment;
     }
 
     @NonNull
@@ -44,7 +53,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.updateWithArticle(mArticles.getResults().get(position));
+        holder.updateWithArticle(mArticles.getResults().get(position), position);
     }
 
     @Override
@@ -79,23 +88,35 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
             mView = itemView;
         }
 
-        public void updateWithArticle(NYTArticle article) {
+        public void updateWithArticle(INYTArticle article, int position) {
             TextView headLine = mView.findViewById(R.id.list_row_article_text_headline);
             headLine.setText(article.getTitle());
 
             TextView date = mView.findViewById(R.id.list_row_article_text_date);
             date.setText(getShortDate(article.getPublishedDate()));
 
+            TextView category = mView.findViewById(R.id.list_row_article_text_category);
+            category.setText(article.getFullSection());
+
             ImageView snapshot = mView.findViewById(R.id.list_row_layout_image_snapshot);
+            String url = article.getSnapshotUrl();
 
-            String url = article.getMultimedia().get(0).getUrl();
-            final Bitmap bitmap = mCache.getBitmapFromMemCache(url);
-
-            if (bitmap != null) {
-                snapshot.setImageBitmap(bitmap);
+            if (url != "") {
+                Picasso.get().load(url).into(snapshot);
             } else {
-                new DownloadImage(snapshot, mCache).execute(url);
+                snapshot.setImageBitmap(null);
             }
+
+            mView.setTag(position);
+
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, ArticleWebActivity.class);
+                    intent.putExtra("STRING_URL",  mArticles.getResults().get((int)v.getTag()).getUrl());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

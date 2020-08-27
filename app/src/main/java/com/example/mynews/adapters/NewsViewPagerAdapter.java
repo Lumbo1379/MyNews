@@ -11,18 +11,14 @@ import com.example.mynews.utils.LruImageViewCache;
 
 public class NewsViewPagerAdapter extends FragmentStateAdapter {
 
-    private LruImageViewCache mCache;
-
-    public NewsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, LruImageViewCache cache) {
+    public NewsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-
-        mCache = cache;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return new NewsFragment(position, mCache);
+        return new NewsFragment(position);
     }
 
     @Override
