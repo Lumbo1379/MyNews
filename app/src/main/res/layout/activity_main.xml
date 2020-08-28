@@ -8,6 +8,11 @@
     tools:context=".controllers.MainActivity"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/activity_main_tab_layout"
         android:layout_width="match_parent"
