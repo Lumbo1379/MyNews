@@ -1,14 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
+        android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_search_text_input_layout_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:errorEnabled="true">
 
+        <EditText
+            android:id="@+id/activity_search_edit_text_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search query term" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+    <EditText
+        android:id="@+id/activity_search_text_input_begin_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="Begin Date"
+        android:clickable="true"
+        android:inputType="none"
+        android:focusable="false"/>
+
+    <EditText
+        android:id="@+id/activity_search_text_input_end_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="End Date"
+        android:clickable="true"
+        android:inputType="none"
+        android:focusable="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/activity_search_linear_layout_left_checkboxes"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_arts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arts"
+            android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_business"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Business"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_entrepreneurs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entrepreneurs"
+                android:onClick="onCheckboxClicked" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_politics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Politics"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_sports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sports"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:id="@+id/activity_search_checkbox_travel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Travel"
+                android:onClick="onCheckboxClicked" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_search_button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search"/>
+
+    <FrameLayout
+        android:id="@+id/activity_search_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

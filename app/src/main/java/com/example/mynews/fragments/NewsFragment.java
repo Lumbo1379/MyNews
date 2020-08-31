@@ -15,6 +15,7 @@ import com.example.mynews.R;
 import com.example.mynews.adapters.NewsRecyclerViewAdapter;
 import com.example.mynews.models.NYTArticles;
 import com.example.mynews.models.NYTViewedArticles;
+import com.example.mynews.utils.INYTArticle;
 import com.example.mynews.utils.INYTArticles;
 import com.example.mynews.utils.LruImageViewCache;
 import com.example.mynews.utils.NYTCalls;
@@ -24,9 +25,15 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
     private int mSearch;
     private RecyclerView mRecyclerView;
+    private INYTArticles mSearchedArticles;
 
     public NewsFragment(int search) {
         mSearch = search;
+    }
+
+    public NewsFragment(INYTArticles articles) {
+        mSearch = -1;
+        mSearchedArticles = articles;
     }
 
     @Override
@@ -44,6 +51,9 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
         switch (mSearch)
         {
+            case NYTPageConstants.SEARCHED:
+                updateRecyclerView(mSearchedArticles);
+                break;
             case NYTPageConstants.TOP_STORIES:
                 getTopStories();
                 break;

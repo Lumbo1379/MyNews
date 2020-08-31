@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 
 import com.example.mynews.models.NYTArticles;
+import com.example.mynews.models.NYTSearchedArticle;
+import com.example.mynews.models.NYTSearchedArticles;
 import com.example.mynews.models.NYTViewedArticle;
 import com.example.mynews.models.NYTViewedArticles;
 
@@ -70,6 +72,29 @@ public class NYTCalls {
 
             @Override
             public void onFailure(Call<NYTViewedArticles> call, Throwable t) {
+
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
+            }
+        });
+    }
+
+    public static void fetchSearched(Callbacks callbacks, String query, String filter, String beginDate, String endDate, String apiKey) {
+
+        final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<Callbacks>(callbacks); // WeakReference in order for Garbage Collector to delete as needed and avoid memory leaks
+
+        INewYorkTimesService nytService = mRetrofit.create(INewYorkTimesService.class);
+
+        Call<NYTSearchedArticles> call = nytService.getSearched(query, filter, beginDate, endDate, apiKey);
+        call.enqueue(new Callback<NYTSearchedArticles>() {
+
+            @Override
+            public void onResponse(Call<NYTSearchedArticles> call, Response<NYTSearchedArticles> response) {
+
+                if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<NYTSearchedArticles> call, Throwable t) {
 
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
             }

@@ -263,7 +263,7 @@ public class NYTViewedArticle implements INYTArticle {
     public String getFullSection() {
         String fullSection = section;
 
-        if (!subsection.equals(""))
+        if (subsection != null && !subsection.equals(""))
             fullSection += " > " + subsection;
 
         return fullSection.toUpperCase();

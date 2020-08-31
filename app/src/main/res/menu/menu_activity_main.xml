@@ -12,5 +12,23 @@
         android:icon="@drawable/baseline_more_vert_black_18dp"
         app:showAsAction="ifRoom"
         android:title="More">
+
+        <menu>
+            <item
+                android:title="Notifications"
+                app:showAsAction="ifRoom">
+            </item>
+
+            <item
+                android:title="Help"
+                app:showAsAction="ifRoom">
+            </item>
+
+            <item
+                android:title="About">
+                app:showAsAction="ifRoom"
+            </item>
+        </menu>
+        
     </item>
 </menu>
