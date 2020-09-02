@@ -63,6 +63,21 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
             case NYTPageConstants.BUSINESS:
                 getBusiness();
                 break;
+            case NYTPageConstants.ARTS:
+                getArts();
+                break;
+            case NYTPageConstants.ENTREPRENEURSHIP:
+                getEntrepreneurship();
+                break;
+            case NYTPageConstants.POLITICS:
+                getPolitics();
+                break;
+            case NYTPageConstants.SPORTS:
+                getSports();
+                break;
+            case NYTPageConstants.TRAVEL:
+                getTravel();
+                break;
         }
     }
 
@@ -76,6 +91,21 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
     private void getBusiness() {
         NYTCalls.fetchTopStories(this, "business", NYTPageConstants.API_KEY);
+    }
+    private void getArts() {
+        NYTCalls.fetchTopStories(this, "arts", NYTPageConstants.API_KEY);
+    }
+    private void getEntrepreneurship() {
+        NYTCalls.fetchSearched(this, "entrepreneurship", null, null, null, NYTPageConstants.API_KEY); // Entrepreneur is not under top stories, but under topics
+    }
+    private void getPolitics() {
+        NYTCalls.fetchTopStories(this, "politics", NYTPageConstants.API_KEY);
+    }
+    private void getSports() {
+        NYTCalls.fetchTopStories(this, "sports", NYTPageConstants.API_KEY);
+    }
+    private void getTravel() {
+        NYTCalls.fetchTopStories(this, "travel", NYTPageConstants.API_KEY);
     }
 
     @Override

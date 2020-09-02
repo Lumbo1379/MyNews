@@ -1,7 +1,10 @@
 package com.example.mynews.controllers;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.appcompat.widget.Toolbar;
 
@@ -20,13 +23,17 @@ import com.example.mynews.adapters.NewsViewPagerAdapter;
 import com.example.mynews.fragments.NewsFragment;
 import com.example.mynews.utils.LruImageViewCache;
 import com.example.mynews.utils.NYTCalls;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager2 mViewPager;
     private NewsViewPagerAdapter mNewsViewPagerAdapter;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         getViewComponents();
         attachToolbar();
+        attachNavigationView();
+        attachDrawerLayout();
         initialiseViewPager();
         createNotificationChannel();
     }
@@ -60,9 +69,57 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_activity_main_notifications:
                 intent = new Intent(MainActivity.this, NotificationsActivity.class);
                 startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.activity_main_drawer_top_stories:
+                mViewPager.setCurrentItem(0);
+                break;
+            case R.id.activity_main_drawer_most_popular:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.activity_main_drawer_business:
+                mViewPager.setCurrentItem(2);
+                break;
+            case R.id.activity_main_drawer_arts:
+                mViewPager.setCurrentItem(3);
+                break;
+            case R.id.activity_main_drawer_entrepreneurship:
+                mViewPager.setCurrentItem(4);
+                break;
+            case R.id.activity_main_drawer_politics:
+                mViewPager.setCurrentItem(5);
+                break;
+            case R.id.activity_main_drawer_sports:
+                mViewPager.setCurrentItem(6);
+                break;
+            case R.id.activity_main_drawer_travel:
+                mViewPager.setCurrentItem(7);
+                break;
+            default:
+                break;
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+
+        return false; // Leave unchecked
     }
 
     private void getViewComponents() {
@@ -84,8 +141,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachToolbar() {
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+    }
+
+    private void attachDrawerLayout() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void attachNavigationView() {
+        mNavigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     private void attachTabLayout() {
@@ -105,6 +174,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 2: {
                         tab.setText("BUSINESS");
+                        break;
+                    }
+                    case 3: {
+                        tab.setText("ARTS");
+                        break;
+                    }
+                    case 4: {
+                        tab.setText("ENTREPRENEURSHIP");
+                        break;
+                    }
+                    case 5: {
+                        tab.setText("POLITICS");
+                        break;
+                    }
+                    case 6: {
+                        tab.setText("SPORTS");
+                        break;
+                    }
+                    case 7: {
+                        tab.setText("TRAVEL");
                         break;
                     }
                 }

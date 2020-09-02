@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -19,9 +18,7 @@ import com.example.mynews.utils.NYTCalls;
 import com.example.mynews.utils.NYTPageConstants;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 
 public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.Callbacks {
 
@@ -68,7 +65,7 @@ public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.
         String filter = "news_desk:(";
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_ARTS_ENABLED, false), "Arts");
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_BUSINESS_ENABLED, false), "Business");
-        filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_ENTREPRENEURS_ENABLED, false), "Entrepreneurs");
+        filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_ENTREPRENEURSHIP_ENABLED, false), "Entrepreneurs");
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_POLITICS_ENABLED, false), "Politics");
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_SPORTS_ENABLED, false), "Sports");
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_TRAVEL_ENABLED, false), "Travel");

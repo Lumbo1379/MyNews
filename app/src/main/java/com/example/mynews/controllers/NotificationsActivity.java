@@ -3,17 +3,12 @@ package com.example.mynews.controllers;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,9 +22,6 @@ import com.example.mynews.receivers.NotificationReceiver;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.prefs.Preferences;
-
-import static android.provider.Settings.System.getString;
 
 public class NotificationsActivity extends AppCompatActivity {
 
@@ -37,7 +29,7 @@ public class NotificationsActivity extends AppCompatActivity {
     public static final String PREF_KEY_NOTIFICATIONS_ENABLED = "PREF_KEY_NOTIFICATIONS_ENABLED";
     public static final String PREF_KEY_ARTS_ENABLED = "PREF_KEY_ARTS_ENABLED";
     public static final String PREF_KEY_BUSINESS_ENABLED = "PREF_KEY_BUSINESS_ENABLED";
-    public static final String PREF_KEY_ENTREPRENEURS_ENABLED = "PREF_KEY_ENTREPRENEURS_ENABLED";
+    public static final String PREF_KEY_ENTREPRENEURSHIP_ENABLED = "PREF_KEY_ENTREPRENEURS_ENABLED";
     public static final String PREF_KEY_POLITICS_ENABLED = "PREF_KEY_POLITICS_ENABLED";
     public static final String PREF_KEY_SPORTS_ENABLED = "PREF_KEY_SPORTS_ENABLED";
     public static final String PREF_KEY_TRAVEL_ENABLED = "PREF_KEY_TRAVEL_ENABLED";
@@ -120,8 +112,8 @@ public class NotificationsActivity extends AppCompatActivity {
             case R.id.activity_notifications_checkbox_business:
                 mPreferences.edit().putBoolean(PREF_KEY_BUSINESS_ENABLED, checkBox.isChecked()).apply();
                 break;
-            case R.id.activity_notifications_checkbox_entrepreneurs:
-                mPreferences.edit().putBoolean(PREF_KEY_ENTREPRENEURS_ENABLED, checkBox.isChecked()).apply();
+            case R.id.activity_notifications_checkbox_entrepreneurship:
+                mPreferences.edit().putBoolean(PREF_KEY_ENTREPRENEURSHIP_ENABLED, checkBox.isChecked()).apply();
                 break;
             case R.id.activity_notifications_checkbox_politics:
                 mPreferences.edit().putBoolean(PREF_KEY_POLITICS_ENABLED, checkBox.isChecked()).apply();
@@ -194,7 +186,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_arts), mPreferences.getBoolean(PREF_KEY_ARTS_ENABLED, false));
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_business), mPreferences.getBoolean(PREF_KEY_BUSINESS_ENABLED, false));
-        setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_entrepreneurs), mPreferences.getBoolean(PREF_KEY_ENTREPRENEURS_ENABLED, false));
+        setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_entrepreneurship), mPreferences.getBoolean(PREF_KEY_ENTREPRENEURSHIP_ENABLED, false));
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_politics), mPreferences.getBoolean(PREF_KEY_POLITICS_ENABLED, false));
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_sports), mPreferences.getBoolean(PREF_KEY_SPORTS_ENABLED, false));
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_travel), mPreferences.getBoolean(PREF_KEY_TRAVEL_ENABLED, false));

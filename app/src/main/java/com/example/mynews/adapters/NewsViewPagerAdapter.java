@@ -23,6 +23,6 @@ public class NewsViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
-    }
+        return 8;
+    } // Number of tabs
 }
