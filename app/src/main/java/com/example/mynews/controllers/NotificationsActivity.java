@@ -150,7 +150,7 @@ public class NotificationsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 8); // Set time to trigger (8am)
-        //calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 1);
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, alarmIntent); // Set repeat frequency (every 24 hrs)
     }
