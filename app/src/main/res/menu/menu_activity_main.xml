@@ -15,6 +15,7 @@
 
         <menu>
             <item
+                android:id="@+id/menu_activity_main_notifications"
                 android:title="Notifications"
                 app:showAsAction="ifRoom">
             </item>
