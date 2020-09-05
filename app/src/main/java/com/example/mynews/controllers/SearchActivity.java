@@ -21,6 +21,7 @@ import com.example.mynews.fragments.NewsFragment;
 import com.example.mynews.utils.INYTArticles;
 import com.example.mynews.utils.NYTCalls;
 import com.example.mynews.utils.NYTPageConstants;
+import com.example.mynews.utils.NYTUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
@@ -37,8 +38,6 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
     private TextInputLayout mSearchQueryParent;
     private EditText mSearchQueryChild;
     private final Calendar mCalendar = Calendar.getInstance();
-    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat mAPIDateFormat = new SimpleDateFormat("yyyyMMdd");
     private HashMap<Integer, String> mCheckboxes;
 
     @Override
@@ -113,9 +112,9 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
     private void updateDateText(boolean isBegin) {
 
         if (isBegin) {
-            mBeginDate.setText(mDateFormat.format(mCalendar.getTime()));
+            mBeginDate.setText(NYTUtils.getUIDate(mCalendar.getTime()));
         } else {
-            mEndDate.setText(mDateFormat.format(mCalendar.getTime()));
+            mEndDate.setText(NYTUtils.getUIDate(mCalendar.getTime()));
         }
     }
 
@@ -137,7 +136,7 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
                 }
 
                 if (valid) {
-                    NYTCalls.fetchSearched(SearchActivity.this, mSearchQueryChild.getText().toString(), getFilter(), getAPIDate(mBeginDate.getText().toString()), getAPIDate(mEndDate.getText().toString()), NYTPageConstants.API_KEY);
+                    NYTCalls.fetchSearched(SearchActivity.this, mSearchQueryChild.getText().toString(), NYTUtils.getFilter(mCheckboxes), NYTUtils.getAPIDate(mBeginDate.getText().toString()), NYTUtils.getAPIDate(mEndDate.getText().toString()), NYTPageConstants.API_KEY);
                 }
             }
         });
@@ -155,38 +154,6 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
         } else {
             mCheckboxes.put(id, checkBox.getText().toString());
         }
-    }
-    
-    private String getFilter() {
-        String filter = "news_desk:(";
-
-        for (String value: mCheckboxes.values()) {
-            filter += value + " ";
-        }
-
-        filter += ")";
-
-        return filter;
-    }
-
-    private String getAPIDate(String strDate) {
-
-        Date date = null;
-
-        if (!strDate.isEmpty()) {
-            try {
-                date = mDateFormat.parse(strDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (date != null) {
-            return mAPIDateFormat.format(date);
-        } else {
-            return null;
-        }
-
     }
 
     @Override
