@@ -1,15 +1,3 @@
-Upon deploying my App with Espresso tests on CircleCI I get "No configuration" and "No Tests" error. The Espresso tests are working fine locally on Android Studio.
-
-With a commit, CI job runs and fails with "No config found" error. details of the error is as follows:
-
-#!/bin/sh -eo pipefail
-#No configuration was found in your project. Please refer to https://circleci.com/docs/2.0/ to get started with your configuration.
-false
-Exited with code 1
-When I manually setup and build the project on Circle-CI I see it's progressing from Starting the build--> Start Container -->Enable SSH -->Restore source cache --> Checkout using deploy key xxx till Disable SSH, and then it shows "NO TESTS" Error.
-
-Below is my .circleci/config.yml
-
 version: 2
 jobs:
   build:
