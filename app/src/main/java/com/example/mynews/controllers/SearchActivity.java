@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
         mSearchQueryChild = findViewById(R.id.activity_search_edit_text_query);
     }
 
-    private void initialiseDatePickers() {
+    private void initialiseDatePickers() { // Set date text based on selection
         DatePickerDialog.OnDateSetListener beginDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
             }
         };
 
-        mBeginDate.setOnClickListener(new View.OnClickListener() {
+        mBeginDate.setOnClickListener(new View.OnClickListener() { // Open date picker
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(SearchActivity.this, beginDate, mCalendar
@@ -109,7 +109,7 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
         });
     }
 
-    private void updateDateText(boolean isBegin) {
+    private void updateDateText(boolean isBegin) { // Apply date text to correct UI
 
         if (isBegin) {
             mBeginDate.setText(NYTUtils.getUIDate(mCalendar.getTime()));
@@ -125,17 +125,17 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
             public void onClick(View v) {
                 boolean valid = true;
 
-                if (mSearchQueryChild.getText().toString().matches("")) {
+                if (mSearchQueryChild.getText().toString().matches("")) { // If the query is left empty
                     mSearchQueryParent.setError("You must enter a search query!");
                     valid = false;
                 }
 
-                if (mCheckboxes.size() == 0) {
+                if (mCheckboxes.size() == 0) { // If not one checkbox has been selected
                     Toast.makeText(getApplicationContext(),"At least one category must be selected!", Toast.LENGTH_SHORT).show();
                     valid = false;
                 }
 
-                if (valid) {
+                if (valid) { // If both checks have passed
                     NYTCalls.fetchSearched(SearchActivity.this, mSearchQueryChild.getText().toString(), NYTUtils.getFilter(mCheckboxes), NYTUtils.getAPIDate(mBeginDate.getText().toString()), NYTUtils.getAPIDate(mEndDate.getText().toString()), NYTPageConstants.API_KEY);
                 }
             }
@@ -159,10 +159,10 @@ public class SearchActivity extends AppCompatActivity implements NYTCalls.Callba
     @Override
     public void onResponse(@Nullable INYTArticles articles) {
 
-        if (articles.getResults().size() > 0) {
+        if (articles.getResults().size() > 0) { // If returned with results based on selected options
             Fragment fragment = new NewsFragment(articles);
             getSupportFragmentManager().beginTransaction().replace(R.id.activity_search_relative_layout, fragment).commit();
-        } else {
+        } else { // If no articles were found matching criteria
             Toast.makeText(getApplicationContext(), "Nothing there :(", Toast.LENGTH_SHORT).show();
         }
     }

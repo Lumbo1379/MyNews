@@ -105,7 +105,7 @@ public class NYTCalls {
         long cacheSize = 5 * 1024 * 1024;
         Cache cache = new Cache(context.getCacheDir(), cacheSize);
 
-        OkHttpClient client = new OkHttpClient()
+        OkHttpClient client = new OkHttpClient() // Create our own OkHttpClient to cache articles headlines for offline use
                 .newBuilder()
                 .cache(cache)
                 .addInterceptor(chain -> {
@@ -125,7 +125,7 @@ public class NYTCalls {
                     return chain.proceed(request);
                 }).build();
 
-        mRetrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder() // Init retrofit with our OkHttpClient
                 .baseUrl("https://api.nytimes.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)

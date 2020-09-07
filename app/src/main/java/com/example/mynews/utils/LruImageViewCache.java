@@ -3,7 +3,7 @@ package com.example.mynews.utils;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-public class LruImageViewCache {
+public class LruImageViewCache { // NOT IN USE
 
     private LruCache<String, Bitmap> memoryCache;
 

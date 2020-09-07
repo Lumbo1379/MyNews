@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) { // Add notifications and search button UI
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return true;
     }
@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent;
 
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_more:
+            case R.id.menu_activity_main_more: // If smaller box opens, open and do nothing else
                 return true;
             case R.id.menu_activity_main_search:
                 intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.menu_activity_main_notifications:
+            case R.id.menu_activity_main_notifications: // Opened by first clicking more the notifications
                 intent = new Intent(MainActivity.this, NotificationsActivity.class);
                 startActivity(intent);
                 return true;
@@ -77,15 +77,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) { // Close navigation drawer
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            super.onBackPressed(); // Go to previous activity
         }
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) { // Used for switching to a different article section when using navigation drawer
         int id = item.getItemId();
 
         switch (id){
@@ -117,16 +117,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START); // Close drawer once an item has been selected
 
-        return false; // Leave unchecked
+        return false; // Leave selected item unchecked
     }
 
     private void getViewComponents() {
 
         mViewPager = findViewById(R.id.activity_main_pager_news);
 
-        NYTCalls.init(this);
+        NYTCalls.init(this); // Initialise retrofit
 
         mNewsViewPagerAdapter = new NewsViewPagerAdapter(this);
     }
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void attachTabLayout() {
+    private void attachTabLayout() { // Set tabs values used by view pager for article display
         TabLayout tabLayout = findViewById(R.id.activity_main_tab_layout);
 
         new TabLayoutMediator(tabLayout, mViewPager, new TabLayoutMediator.TabConfigurationStrategy() {

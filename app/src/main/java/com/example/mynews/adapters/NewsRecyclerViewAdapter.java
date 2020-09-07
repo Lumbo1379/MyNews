@@ -32,10 +32,10 @@ import java.util.Date;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.NewsViewHolder> {
 
-    private INYTArticles mArticles;
+    private INYTArticles mArticles; // INYTArticle implements commonly used methods required to display all article types
     private Context mContext;
 
-    public NewsRecyclerViewAdapter(Context newsFragment, INYTArticles articles) {
+    public NewsRecyclerViewAdapter(Context newsFragment, INYTArticles articles) { // Get context and articles from fragment
         mArticles = articles;
         mContext = newsFragment;
     }
@@ -46,14 +46,14 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.list_row_article, parent, false);
+        View view = inflater.inflate(R.layout.list_row_article, parent, false); // Inflate single list item article view into recycler view
 
         return new NewsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.updateWithArticle(mArticles.getResults().get(position), position);
+        holder.updateWithArticle(mArticles.getResults().get(position), position); // Set up list item article with appropriate values
     }
 
     @Override
@@ -66,7 +66,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         return mArticles.getResults().size();
     }
 
-    private String getShortDate(String date) {
+    private String getShortDate(String date) { // Truncate date
         Date dateTime = null;
 
         try {
@@ -88,7 +88,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
             mView = itemView;
         }
 
-        public void updateWithArticle(INYTArticle article, int position) {
+        public void updateWithArticle(INYTArticle article, int position) { // Set values for article list row item
             TextView headLine = mView.findViewById(R.id.list_row_article_text_headline);
             headLine.setText(article.getTitle());
 
@@ -101,20 +101,20 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
             ImageView snapshot = mView.findViewById(R.id.list_row_layout_image_snapshot);
             String url = article.getSnapshotUrl();
 
-            if (url != "") {
-                Picasso.get().load(url).into(snapshot);
+            if (url != "") { // If there is media to display
+                Picasso.get().load(url).into(snapshot); // Download, cache and display
             } else {
-                snapshot.setImageBitmap(null);
+                snapshot.setImageBitmap(null); // Otherwise don't display an image, and remove one if one was loaded
             }
 
-            mView.setTag(position);
+            mView.setTag(position); // Set tag, used by OnClickListener
 
-            mView.setOnClickListener(new View.OnClickListener() {
+            mView.setOnClickListener(new View.OnClickListener() { // When clicking and article load the source in a WebView
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ArticleWebActivity.class);
-                    intent.putExtra("STRING_URL",  mArticles.getResults().get((int)v.getTag()).getUrl());
-                    mContext.startActivity(intent);
+                    intent.putExtra("STRING_URL",  mArticles.getResults().get((int)v.getTag()).getUrl()); // Pass the URL to be loaded by the WebView
+                    mContext.startActivity(intent); // Load into ArticleWebActivity
                 }
             });
         }

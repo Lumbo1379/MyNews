@@ -23,7 +23,7 @@ public class ArticleWebActivity extends AppCompatActivity {
 
         String url;
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null) { // Get URL from intent
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 url= null;
@@ -42,8 +42,6 @@ public class ArticleWebActivity extends AppCompatActivity {
         WebSettings settings = mBrowser.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        //settings.setLoadWithOverviewMode(true);
-        //settings.setUseWideViewPort(true);
     }
 
     public void loadUrl(String url) {

@@ -31,7 +31,7 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
         mSearch = search;
     }
 
-    public NewsFragment(INYTArticles articles) {
+    public NewsFragment(INYTArticles articles) { // If loading from searched article section
         mSearch = -1;
         mSearchedArticles = articles;
     }
@@ -47,7 +47,7 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
         return view;
     }
 
-    private void getArticles() {
+    private void getArticles() { // Get articles based on viewpager position or if came from search activity
 
         switch (mSearch)
         {
@@ -92,18 +92,23 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
     private void getBusiness() {
         NYTCalls.fetchTopStories(this, "business", NYTPageConstants.API_KEY);
     }
+
     private void getArts() {
         NYTCalls.fetchTopStories(this, "arts", NYTPageConstants.API_KEY);
     }
+
     private void getEntrepreneurship() {
         NYTCalls.fetchSearched(this, "entrepreneurship", null, null, null, NYTPageConstants.API_KEY); // Entrepreneur is not under top stories, but under topics
     }
+
     private void getPolitics() {
         NYTCalls.fetchTopStories(this, "politics", NYTPageConstants.API_KEY);
     }
+
     private void getSports() {
         NYTCalls.fetchTopStories(this, "sports", NYTPageConstants.API_KEY);
     }
+
     private void getTravel() {
         NYTCalls.fetchTopStories(this, "travel", NYTPageConstants.API_KEY);
     }
@@ -118,7 +123,7 @@ public class NewsFragment extends Fragment implements NYTCalls.Callbacks {
 
     }
 
-    private void updateRecyclerView(INYTArticles articles) {
+    private void updateRecyclerView(INYTArticles articles) { // Update list of articles based on returned articles
         mRecyclerView.setAdapter(new NewsRecyclerViewAdapter(getActivity(), articles));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

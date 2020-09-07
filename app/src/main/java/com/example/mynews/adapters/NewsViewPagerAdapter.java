@@ -18,7 +18,7 @@ public class NewsViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return new NewsFragment(position);
+        return new NewsFragment(position); // Create new fragment based on tab selected
     }
 
     @Override

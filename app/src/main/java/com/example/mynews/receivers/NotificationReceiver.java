@@ -28,18 +28,18 @@ public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.
     public void onReceive(Context context, Intent intent) {
         mContext = context;
 
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) { // If phone has just booted
             SharedPreferences preferences = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
-            if (preferences.getBoolean(NotificationsActivity.PREF_KEY_NOTIFICATIONS_ENABLED, false)) {
+            if (preferences.getBoolean(NotificationsActivity.PREF_KEY_NOTIFICATIONS_ENABLED, false)) { // Reset alarm if one was set
                 NotificationsActivity.setAlarm(preferences, context);
             }
         } else {
-            checkForArticles();
+            checkForArticles(); // See if there are new articles to warrant a notification
         }
     }
 
-    private void sendNewArticlesNotification() {
+    private void sendNewArticlesNotification() { // Send notification that when clicked is removed and goes to the MainActivity
         Intent intent = new Intent(mContext, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
@@ -57,7 +57,7 @@ public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.
         notificationManager.notify(1, builder.build());
     }
 
-    private void checkForArticles() {
+    private void checkForArticles() { // Search for article based on selected checkboxes and query in preferences
         SharedPreferences preferences = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
         String query = preferences.getString(NotificationsActivity.PREF_KEY_SEARCH_QUERY_TERM, null);
@@ -71,7 +71,7 @@ public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.
         filter += getFilter(preferences.getBoolean(NotificationsActivity.PREF_KEY_TRAVEL_ENABLED, false), "Travel");
         filter += ")";
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd"); // New articles from today
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 1);
@@ -89,7 +89,7 @@ public class NotificationReceiver extends BroadcastReceiver implements NYTCalls.
 
     @Override
     public void onResponse(@Nullable INYTArticles articles) {
-        if (articles.getResults().size() > 0)
+        if (articles.getResults().size() > 0) // If there are new articles send a notification
             sendNewArticlesNotification();
     }
 
