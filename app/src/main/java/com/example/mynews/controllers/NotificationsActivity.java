@@ -45,13 +45,13 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        mCheckboxes = new HashMap<Integer, String>();
-        mPreferences = getApplicationContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        mCheckboxes = new HashMap<Integer, String>(); // For storing selected checkboxes locally
+        mPreferences = getApplicationContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE); // Give name to preferences for use by receiver
 
         getViewComponents();
 
         attachToolbar();
-        setViewOnPreferences();
+        setViewOnPreferences(); // Init view with preferences applied
         initialiseSwitch();
         initialiseEditText();
     }
@@ -69,11 +69,11 @@ public class NotificationsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void initialiseSwitch() {
+    private void initialiseSwitch() { // If notifications are toggled or not
         mSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCheckboxes.size() == 0) {
+                if (mCheckboxes.size() == 0) { // If no required topic checkboxes are checked
                     setNotificationSwitchUnchecked();
                     cancelAlarm();
                     return;
@@ -81,7 +81,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
                 if (mSwitch.isChecked()) {
                     setAlarm(mPreferences, getApplicationContext());
-                } else {
+                } else { // Don't manually set switch as unchecked as was unchecked by user
                     cancelAlarm();
                 }
             }
@@ -95,16 +95,18 @@ public class NotificationsActivity extends AppCompatActivity {
     private void updateCheckboxes(CheckBox checkBox) {
         int id = checkBox.getId();
 
-        if (mCheckboxes.containsKey(id)) {
+        if (mCheckboxes.containsKey(id)) { // Remove checkbox from local dictionary
             mCheckboxes.remove(id);
         } else {
-            mCheckboxes.put(id, checkBox.getText().toString());
+            mCheckboxes.put(id, checkBox.getText().toString()); // Add checkbox to local dictionary
         }
 
-        if (mCheckboxes.size() == 0)
+        if (mCheckboxes.size() == 0) { // If all notifications unchecked uncheck notifications and cancel alarm
             setNotificationSwitchUnchecked();
+            cancelAlarm();
+        }
 
-        switch (id)
+        switch (id) // Update checkbox preferences
         {
             case R.id.activity_notifications_checkbox_arts:
                 mPreferences.edit().putBoolean(PREF_KEY_ARTS_ENABLED, checkBox.isChecked()).apply();
@@ -132,17 +134,17 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
     public static void setAlarm(SharedPreferences preferences, Context context) {
-        preferences.edit().putBoolean(PREF_KEY_NOTIFICATIONS_ENABLED, true).apply();
+        preferences.edit().putBoolean(PREF_KEY_NOTIFICATIONS_ENABLED, true).apply(); // Set notification pref to enabled
 
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationReceiver.class);
         intent.setAction(CHANNEL_ID);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // Update alarm if one already exists
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 8); // Set time to trigger (8am)
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 1); // Add a day to not immediately send notification if after 8am when set
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, alarmIntent); // Set repeat frequency (every 24 hrs)
     }
@@ -155,12 +157,12 @@ public class NotificationsActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_NO_CREATE);
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
 
-        if(pendingIntent != null) {
+        if(pendingIntent != null) { // If there is an alarm to cancel
             alarmManager.cancel(pendingIntent);
         }
     }
 
-    private void initialiseEditText() {
+    private void initialiseEditText() { // Update query pref
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -179,7 +181,7 @@ public class NotificationsActivity extends AppCompatActivity {
         });
     }
 
-    private void setViewOnPreferences() {
+    private void setViewOnPreferences() { // Update view with preferences
         mEditText.setText(mPreferences.getString(PREF_KEY_SEARCH_QUERY_TERM, ""));
 
         mSwitch.setChecked(mPreferences.getBoolean(PREF_KEY_NOTIFICATIONS_ENABLED, false));
@@ -192,7 +194,7 @@ public class NotificationsActivity extends AppCompatActivity {
         setCheckboxFromPreferences(findViewById(R.id.activity_notifications_checkbox_travel), mPreferences.getBoolean(PREF_KEY_TRAVEL_ENABLED, false));
     }
 
-    private void setCheckboxFromPreferences(CheckBox checkBox, boolean checked) {
+    private void setCheckboxFromPreferences(CheckBox checkBox, boolean checked) { // Update local checkbox store
         if (checked) {
             checkBox.setChecked(true);
             mCheckboxes.put(checkBox.getId(), checkBox.getText().toString());
